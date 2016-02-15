@@ -36,6 +36,13 @@ public class Gen{
         generate(type, size);
     }
 
+    Gen(int size) {
+        Type[] types = Type.values();
+        type = types[(int) (Math.random() * types.length)];
+        this.size = size;
+        generate(type, size);
+    }
+
     Gen(Type type, int size) {
         this.type = type;
         this.size = size;

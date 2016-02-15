@@ -111,11 +111,31 @@ public class DB {
 
         while(resSet.next())
         {
-            String  name = resSet.getString("name");
-            String  shipClass = resSet.getString("class");
+            String name = resSet.getString("name");
+            String shipClass = resSet.getString("class");
             int  launched = resSet.getInt("launched");
 
             System.out.printf("%20s%20s%20s\n", name, shipClass, launched);
+        }
+
+        System.out.println("------------------------------------------------------------");
+
+        resSet = statmt.executeQuery("SELECT * FROM 'classes'");
+
+        System.out.println("All classes:");
+        System.out.printf("%10s%10s%10s%10s%10s%10s\n\n", "class", "type", "country", "numGuns", "bore", "displacement");
+
+
+        while(resSet.next())
+        {
+            String shipClass = resSet.getString("class");
+            String type = resSet.getString("type");
+            String country = resSet.getString("country");
+            int numGuns = resSet.getInt("numGuns");
+            double bore = resSet.getInt("bore");
+            int displacement = resSet.getInt("displacement");
+
+            System.out.printf("%10s%10s%10s%10s%10s%10s\n", shipClass,type, country, numGuns, bore, displacement);
         }
 
         System.out.println("------------------------------------------------------------");
