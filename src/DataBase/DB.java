@@ -139,7 +139,19 @@ public class DB {
         }
 
         System.out.println("------------------------------------------------------------");
-        System.out.println("Table showed");
+        System.out.println("Tables showed");
+    }
+
+    public static void deleteTables() throws ClassNotFoundException, SQLException {
+
+//        statmt = conn.createStatement();
+
+        statmt.execute("DROP TABLE 'ships'");
+        statmt.execute("DROP TABLE 'classes'");
+        statmt.execute("DROP TABLE 'outcomes'");
+        statmt.execute("DROP TABLE 'battles'");
+
+        System.out.println("Tables deleted");
     }
 
     public static void closeDB() throws ClassNotFoundException, SQLException {

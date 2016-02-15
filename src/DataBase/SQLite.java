@@ -58,7 +58,7 @@ public class SQLite {
         statmt.execute("DROP TABLE 'students'");
     }
 
-    public static void CloseDB() throws ClassNotFoundException, SQLException
+    public static void closeDB() throws ClassNotFoundException, SQLException
     {
         conn.close();
         resSet.close();
