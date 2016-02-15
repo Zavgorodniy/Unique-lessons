@@ -2,10 +2,18 @@ package OOP;
 
 public class Box {
 
-    int i;
+    int x = 1;
+    long y;
 
-    Box () {
-        i = 0;
-        System.out.println("i = " + i);
+    Box(long y) {
+        this.y = y;
+    }
+
+    Box() {
+        this(0);   // вызов конструктора Base(long y)
+    }
+
+    public long f() {
+        return x*y;
     }
 }
