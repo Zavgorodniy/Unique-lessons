@@ -1,8 +1,20 @@
 package Math;
 
+/** Class, that contains mathematical functions
+ * @author Nick
+ * @version 1.0 beta Feb, 2016.
+ * @deprecated
+ * @see Math.MathStat.Main#main(String[])
+ * @since 1.0
+ */
 public class Mathem {
-
-    public void factorial(int n) {
+    
+    public static final int i = 1;
+    /**
+     * @param n int value
+     * @return !n
+     */
+    public long factorial(int n) {
         long fact = 1;
         long factMax = 1;
 
@@ -13,6 +25,7 @@ public class Mathem {
 
         System.out.println("Max factorial num: " + --i);
         System.out.println(n + "! = " + fact);
+        return fact;
     }
 
     public void sqrt(int num) {

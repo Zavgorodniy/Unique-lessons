@@ -29,6 +29,10 @@ public class DB {
         System.out.println("Tables created or exist");
     }
 
+    /**
+     *
+     * @throws SQLException
+     */
     public static void writeTables() throws SQLException {
         statmt.execute("INSERT INTO 'classes' " +
                 "('class','type', 'country', 'numGuns', 'bore', 'displacement') " +
@@ -73,7 +77,7 @@ public class DB {
                 "VALUES " +
                 "('Bismarck', 'North Atlantic', 'sunk'), " +
                 "('California', 'Guadalcanal', 'damaged'), " +
-                "('CAlifornia', 'Surigao Strait', 'ok')," +
+                "('California', 'Surigao Strait', 'ok')," +
                 "('Duke of York', 'North Cape', 'ok')," +
                 "('Fuso', 'Surigao Strait', 'sunk')," +
                 "('Hood', 'North Atlantic', 'sunk')," +
@@ -91,8 +95,8 @@ public class DB {
         statmt.execute("INSERT INTO 'battles' " +
                 "('name', 'date') " +
                 "VALUES " +
-                "('Cuba62a', '1962-10-20 00:00:00.000'), " +
-                "('Cuba62b', '1962-10-25 00:00:00.000'), " +
+                "('#Cuba62a', '1962-10-20 00:00:00.000'), " +
+                "('#Cuba62b', '1962-10-25 00:00:00.000'), " +
                 "('Guadalcanal', '1942-11-15 00:00:00.000')," +
                 "('North Atlantic', '1941-05-25 00:00:00.000')," +
                 "('North Cape', '1943-12-26 00:00:00.000')," +
@@ -103,27 +107,60 @@ public class DB {
 
     public static void readTables() throws ClassNotFoundException, SQLException {
         statmt = conn.createStatement();
-        resSet = statmt.executeQuery("SELECT * FROM 'ships'");
 
-        System.out.println("All ships:");
-        System.out.printf("%20s%20s%20s\n\n", "NAME", "CLASS", "LAUNCHED");
+        resSet = statmt.executeQuery("SELECT * FROM 'battles'");
+
+        System.out.println("All battles:");
+        System.out.printf("%20s%30s\n\n", "NAME", "DATE");
 
 
         while(resSet.next())
         {
             String name = resSet.getString("name");
+            String date = resSet.getString("date");
+
+            System.out.printf("%20s%30s\n", name, date);
+        }
+
+        System.out.println("------------------------------------------------------------------------------------------");
+
+        resSet = statmt.executeQuery("SELECT * FROM 'outcomes'");
+
+        System.out.println("All outcomes:");
+        System.out.printf("%20s%20s%20s\n\n", "SHIP", "BATTLE", "RESULT");
+
+
+        while(resSet.next())
+        {
+            String ship = resSet.getString("ship");
+            String battle = resSet.getString("battle");
+            String result = resSet.getString("result");
+
+            System.out.printf("%20s%20s%20s\n", ship, battle, result);
+        }
+
+        System.out.println("------------------------------------------------------------------------------------------");
+
+        resSet = statmt.executeQuery("SELECT * FROM 'ships'");
+
+        System.out.println("All ships:");
+        System.out.printf("%20s%20s%20s\n\n", "NAME", "CLASS", "LAUNCHED");
+
+        while(resSet.next())
+        {
+            String name = resSet.getString("name");
             String shipClass = resSet.getString("class");
-            int  launched = resSet.getInt("launched");
+            int launched = resSet.getInt("launched");
 
             System.out.printf("%20s%20s%20s\n", name, shipClass, launched);
         }
 
-        System.out.println("------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------");
 
         resSet = statmt.executeQuery("SELECT * FROM 'classes'");
 
         System.out.println("All classes:");
-        System.out.printf("%10s%10s%10s%10s%10s%10s\n\n", "class", "type", "country", "numGuns", "bore", "displacement");
+        System.out.printf("%15s%15s%15s%15s%15s%15s\n\n", "CLASS", "TYPE", "COUNTRY", "NUMGUNS", "BORE", "DISPLACEMENT");
 
 
         while(resSet.next())
@@ -135,10 +172,10 @@ public class DB {
             double bore = resSet.getInt("bore");
             int displacement = resSet.getInt("displacement");
 
-            System.out.printf("%10s%10s%10s%10s%10s%10s\n", shipClass,type, country, numGuns, bore, displacement);
+            System.out.printf("%15s%15s%15s%15s%15s%15s\n", shipClass,type, country, numGuns, bore, displacement);
         }
 
-        System.out.println("------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------");
         System.out.println("Tables showed");
     }
 
@@ -159,6 +196,19 @@ public class DB {
         resSet.close();
 
         System.out.println("Connections closed");
+    }
+
+    public static void deleteRows() throws ClassNotFoundException, SQLException {
+
+        statmt.execute("DELETE FROM battles WHERE date < '1944-01-01'");
+
+        statmt.execute("DELETE FROM outcomes WHERE battle NOT IN (SELECT name FROM battles)");
+
+        statmt.execute("DELETE FROM ships WHERE name NOT IN (SELECT ship FROM outcomes)");
+
+        statmt.execute("DELETE FROM classes WHERE class NOT IN (SELECT class FROM ships)");
+
+        System.out.println("Rows deleted");
     }
 
 }

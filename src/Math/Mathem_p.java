@@ -1,5 +1,13 @@
 package Math;
 
+/** Class, that contains mathematical functions
+ *
+ * @author <b>Nick</b> Zavgorodniy
+ * @version 1.0 beta Feb, 2016.
+ * @deprecated
+ * @see Mathem_a_p
+ * @since JDK 1.0
+ */
 public class Mathem_p extends Mathem {
 
     public void sqrt(int num, int power) {

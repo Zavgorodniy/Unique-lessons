@@ -1,6 +1,8 @@
 package DataBase;
 
-public class Main {
+import java.sql.SQLException;
+
+public class MainDataBase {
 
     public static void main(String[] args) {
 
@@ -9,13 +11,17 @@ public class Main {
             DB.createTables();
             DB.writeTables();
             DB.readTables();
-//            DB.statmt.execute("DELETE FROM 'ships' WHERE launched < 1940");
-//            DB.readTables();
+
+            DB.deleteRows();
+
+            DB.readTables();
+            DB.deleteTables();
             DB.closeDB();
-
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
-        }
+        } finally {
 
+        }
     }
+
 }
