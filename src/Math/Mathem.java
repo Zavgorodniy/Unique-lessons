@@ -3,14 +3,19 @@ package Math;
 /** Class, that contains mathematical functions
  * @author Nick
  * @version 1.0 beta Feb, 2016.
- * @deprecated
- * @see Math.MathStat.Main#main(String[])
+ * @deprecated due to
+ * @see Mathem#factorial(int)
  * @since 1.0
  */
 public class Mathem {
 
-    public static final int i = 1;
     /**
+    *{@value}
+    */
+    public static final int i = 1;
+
+    /**
+     * Function that finds factorial of inserted value
      * @param n int value
      * @return !n
      */
@@ -28,6 +33,10 @@ public class Mathem {
         return fact;
     }
 
+    /**
+     * Function that finds sqrt of inserted value
+     * @param num int value
+     */
     public void sqrt(int num) {
         int i = num/2;
         int iteration = 0;

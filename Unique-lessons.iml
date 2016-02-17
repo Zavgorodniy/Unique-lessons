@@ -10,5 +10,8 @@
     <orderEntry type="library" name="java-json.jar" level="project" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
     <orderEntry type="library" name="sqlite-jdbc-3.8.11.2" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc-3.7.2" level="project" />
+    <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="library" name="org.hamcrest.core.source_1.3.0.v201303031735" level="project" />
   </component>
 </module>

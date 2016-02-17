@@ -2,7 +2,7 @@ package Math;
 
 
 /** Class, that contains mathematical functions
- *
+ * @see DataBase.MainDataBase contain
  * @author Nick
  * @version 1.0 beta Feb, 2016.
  * @since JDK 1.0

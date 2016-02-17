@@ -20,6 +20,8 @@ public class Main {
 
         myList.set(22, 3);
 
+        myList.add(4.45);
+
         System.out.println(myList.toString());
 
         myList.sort(true);
