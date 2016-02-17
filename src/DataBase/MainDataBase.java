@@ -6,20 +6,18 @@ public class MainDataBase {
 
         try {
             DB.connect();
-            DB.createTables();
-            DB.writeTables();
+//            DB.createTables();
+//            DB.writeTables();
             DB.readTables();
 
-            DB.deleteRows();
-
-            DB.readTables();
-            DB.deleteTables();
+            DB.selectRows();
+//            DB.deleteRows();
+//
+//            DB.readTables();
+//            DB.deleteTables();
             DB.closeDB();
         } catch (Exception e){
             e.printStackTrace();
-        } finally {
-
         }
     }
-
 }
