@@ -8,7 +8,7 @@ package Math;
  * @since 1.0
  */
 public class Mathem {
-    
+
     public static final int i = 1;
     /**
      * @param n int value

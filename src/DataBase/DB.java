@@ -23,7 +23,7 @@ public class DB {
         statmt.execute("CREATE TABLE if not exists 'classes' ('class' varchar (50) NOT NULL, 'type' varchar (2) NOT NULL, " +
                 "'country' varchar (20) NOT NULL, 'numGuns' tinyint, 'bore' real, 'displacement' int);");
         statmt.execute("CREATE TABLE if not exists 'ships' ('name' varchar (50) PRIMARY KEY NOT NULL, 'class' varchar (50) NOT NULL, 'launched' smallint);");
-        statmt.execute("CREATE TABLE if not exists 'outcomes' ('ship' varchar (20) NOT NULL, 'battle' varchar (20) NOT NULL, 'result' varchar(10) NOT NULL, PRIMARY KEY('ship', 'battle'));");
+        statmt.execute("CREATE TABLE if not exists 'outcomes' ('ship' varchar (20) NOT NULL, 'battle' varchar (20) NOT NULL, 'result' varchar(10) NOT NULL);");
         statmt.execute("CREATE TABLE if not exists 'battles' ('name' varchar (50) PRIMARY KEY NOT NULL, 'date' datetime NOT NULL);");
 
         System.out.println("Tables created or exist");
@@ -211,4 +211,23 @@ public class DB {
         System.out.println("Rows deleted");
     }
 
+    public static void selectRows() throws ClassNotFoundException, SQLException {
+
+        resSet = statmt.executeQuery("SELECT DISTINCT class FROM classes" +
+                "JOIN ships ON ships.class = classes.class" +
+                "JOIN outcomes ON outcomes.ship = ships.name" +
+                "JOIN battles ON battles.name = outcomes.battle" +
+                "WHERE battles.date > '1944-01-01'");
+
+        System.out.println("Selected classes:");
+
+        while(resSet.next())
+        {
+            String shipClass = resSet.getString("class");
+
+            System.out.printf("%15s\n", shipClass);
+        }
+
+        System.out.println("Rows Selected");
+    }
 }
