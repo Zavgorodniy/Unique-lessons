@@ -15,17 +15,17 @@ public class ArrayListM<T> implements CollectionM {
 
     public int currentIndex = -1;
 
-    ArrayListM() {
+    public ArrayListM() {
         size = 10;
         array = new Object[size];
     }
 
-    ArrayListM(int size) {
+    public ArrayListM(int size) {
         this.size = size;
         array = new Object[size];
     }
 
-    ArrayListM(T[] array) {
+    public ArrayListM(T[] array) {
         this.array = array;
         size = array.length;
         currentIndex = size - 1;
@@ -80,6 +80,7 @@ public class ArrayListM<T> implements CollectionM {
         for (int i = index; i < currentIndex; i++) {
             array[i] = array[i + 1];
         }
+
         currentIndex--;
         return false;
     }
@@ -88,19 +89,19 @@ public class ArrayListM<T> implements CollectionM {
     public boolean sort(boolean fromMinToMax) {
 
         for (int i = 0; i < currentIndex; i++) {
-            if (!array[i].getClass().equals(array[i + 1].getClass())) {
-                System.out.println("log: Can't compare " + array[i].getClass() + " and " + array[i + 1].getClass());
-                return false;
-            } else if (array[i] instanceof Number) {
+            if (array[i] instanceof Number) {
                 for (int j = array.length - 1 ; j > 0 ; j--){
                     for(int k = 0 ; k < i ; k++){
-                        if((Double) array[k] > (Double) array[k + 1]){
-                            Double tmp = (Double) array[k];
+                        if(Double.parseDouble(array[k].toString()) > Double.parseDouble(array[k + 1].toString())){
+                            Object tmp = array[k];
                             array[k] = array[k + 1];
                             array[k + 1] = tmp;
                         }
                     }
                 }
+            } else if (!array[i].getClass().equals(array[i + 1].getClass())) {
+                System.out.println("log: Can't compare " + array[i].getClass() + " and " + array[i + 1].getClass());
+                return false;
             } else {
                 System.out.println("log: Can't compare different non numerical classes");
             }
