@@ -6,11 +6,11 @@ public class MainDataBase {
 
         try {
             DB.connect();
-//            DB.createTables();
-//            DB.writeTables();
+            DB.createTables();
+            DB.writeTables();
             DB.readTables();
 
-            DB.selectRows();
+//            DB.selectRows();
 //            DB.deleteRows();
 //
 //            DB.readTables();
