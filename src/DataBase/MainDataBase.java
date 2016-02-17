@@ -1,7 +1,5 @@
 package DataBase;
 
-import java.sql.SQLException;
-
 public class MainDataBase {
 
     public static void main(String[] args) {
