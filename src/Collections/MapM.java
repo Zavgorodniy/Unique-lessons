@@ -1,4 +1,4 @@
-package Collections.Test;
+package Collections;
 
 public class MapM {
 

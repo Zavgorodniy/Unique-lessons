@@ -23,8 +23,8 @@ public class Data {
     {
         conn = null;
         Class.forName("org.sqlite.JDBC");
-//        conn = DriverManager.getConnection("jdbc:sqlite://home/nick/IdeaProjects/ships.sqlite");
-        conn = DriverManager.getConnection("jdbc:sqlite://D:\\dev\\SQLiteStudio\\ships");
+        conn = DriverManager.getConnection("jdbc:sqlite://home/nick/IdeaProjects/ships.sqlite");
+//        conn = DriverManager.getConnection("jdbc:sqlite://D:\\dev\\SQLiteStudio\\ships");
     }
 
     public static void readTables() throws ClassNotFoundException, SQLException {

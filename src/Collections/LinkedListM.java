@@ -3,14 +3,19 @@ package Collections;
 public class LinkedListM {
 
     public LinkedListM(Object element) {
-        new ListElement();
+
+//        new ListElement();
     }
+
+
 
     private class ListElement {
         Object element;
         Object next;
         Object prev;
 
-        ListElement(Object element)
+        ListElement(Object element) {
+
+        }
     }
 }

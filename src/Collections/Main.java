@@ -1,10 +1,5 @@
 package Collections;
 
-import Collections.Test.MapM;
-
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * class with main() method for testing classes
  */
