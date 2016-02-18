@@ -3,7 +3,7 @@ package Collections;
 /**
  *
  */
-public class ArrayListM implements CollectionM {
+public class SetM{
 
     private Object[] array;
 
@@ -11,23 +11,17 @@ public class ArrayListM implements CollectionM {
 
     public int currentIndex = -1;
 
-    public ArrayListM() {
+    public SetM() {
         size = 10;
         array = new Object[size];
     }
 
-    public ArrayListM(int size) {
-        this.size = size;
-        array = new Object[size];
-    }
-
-    public ArrayListM(Object[] array) {
+    public SetM(Object[] array) {
         this.array = array;
         size = array.length;
         currentIndex = size - 1;
     }
 
-    @Override
     public void add(Object element) {
         if (currentIndex < size - 1) {
             array[++currentIndex] = element;
@@ -46,62 +40,33 @@ public class ArrayListM implements CollectionM {
         }
     }
 
-    @Override
-    public void add(Object element, int index) {
-//
-//        if (currentIndex < size - 1) {
-//            array[++currentIndex] = element;
-//        } else {
-//            Object[] tmp = array;
-//            size += size/2;
-//            array = new Object[size];
-//            currentIndex = -1;
-//
-//            System.out.println("log: Rewrite array. New size = " + size);
-//
-//            for (Object obj: tmp) {
-//                array[++currentIndex] = obj;
-//            }
-//            add(element);
-//        }
+    public boolean set(Object element, Object newElement) {
+
+        for (Object el: array) {
+            if (el.equals(element)) {
+                el = newElement;
+                return true;
+            }
+        }
+        System.out.println("log: element not founded");
+        return false;
     }
 
-    @Override
-    public boolean set(Object element, int index) {
-        if (index > currentIndex) {
-            System.out.println("log: Can't set element with index " + index + ". Current max index is " + currentIndex);
-            return false;
-        }
+    public boolean remove(Object element) {
+        for (int i = 0; i <= currentIndex; i++) {
 
-        array[index] = element;
-        return true;
+            if (array[i].equals(element)) {
+                for (int j = i; j < currentIndex; j++) {
+                    array[j] = array[j + 1];
+                }
+                currentIndex--;
+                return true;
+            }
+        }
+        System.out.println("log: No such element");
+        return false;
     }
 
-    @Override
-    public Object get(int index) {
-        if (index > currentIndex) {
-            System.out.println("log: Can't get element with index " + index + ". Current max index is " + currentIndex);
-            return null;
-        }
-        return array[index];
-    }
-
-    @Override
-    public boolean remove(int index) {
-        if (index > currentIndex) {
-            System.out.println("log: Can't remove element with index " + index + ". Current max index is " + currentIndex);
-            return false;
-        }
-
-        for (int i = index; i < currentIndex; i++) {
-            array[i] = array[i + 1];
-        }
-
-        currentIndex--;
-        return true;
-    }
-
-    @Override
     public boolean sort(boolean fromMinToMax) {
         Object[] sortedArray = array;
 
@@ -135,7 +100,6 @@ public class ArrayListM implements CollectionM {
         return true;
     }
 
-    @Override
     public void reverse() {
         int j = currentIndex;
         for (int i = 0; i <= currentIndex / 2; i++, j--) {
@@ -145,7 +109,6 @@ public class ArrayListM implements CollectionM {
         }
     }
 
-    @Override
     public Object min() {
         Object min = array[0];
 
@@ -162,7 +125,6 @@ public class ArrayListM implements CollectionM {
         return min;
     }
 
-    @Override
     public Object max() {
         Object max = array[0];
 
@@ -177,18 +139,5 @@ public class ArrayListM implements CollectionM {
         }
 
         return max;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder stringArray = new StringBuilder();
-
-        stringArray.append("{");
-        for (int i = 0; i < currentIndex; i++) {
-            stringArray.append("[" + array[i] + "], ");
-        }
-        stringArray.append("[" + array[currentIndex].toString() + "]}");
-
-        return stringArray.toString();
     }
 }

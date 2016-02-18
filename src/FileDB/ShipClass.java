@@ -22,4 +22,8 @@ public class ShipClass {
         this.bore = bore;
         this.displacement = displacement;
     }
+
+    public String toString() {
+        return shipClass + ", " + type  + ", " + country + ", " + numGuns + ", " + bore + ", " + displacement;
+    }
 }

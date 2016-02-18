@@ -13,4 +13,8 @@ public class Ship {
         this.shipClass = shipClass;
         this.launched = launched;
     }
+
+    public String toString() {
+        return name + ", " + shipClass + ", " + launched;
+    }
 }

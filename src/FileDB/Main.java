@@ -10,6 +10,9 @@ public class Main {
             Data.Conn();
             Data.readTables();
             Data.writeFiles();
+            Data.readFiles();
+            Data.replace();
+            Data.writeFiles();
         }catch (Exception e) {
             e.printStackTrace();
         }

@@ -4,6 +4,8 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Data {
 
@@ -21,9 +23,8 @@ public class Data {
     {
         conn = null;
         Class.forName("org.sqlite.JDBC");
-        conn = DriverManager.getConnection("jdbc:sqlite://home/nick/IdeaProjects/ships.sqlite");
-
-        System.out.println("Connection created");
+//        conn = DriverManager.getConnection("jdbc:sqlite://home/nick/IdeaProjects/ships.sqlite");
+        conn = DriverManager.getConnection("jdbc:sqlite://D:\\dev\\SQLiteStudio\\ships");
     }
 
     public static void readTables() throws ClassNotFoundException, SQLException {
@@ -84,26 +85,86 @@ public class Data {
     public static void readFiles() {
 
         InputStream is;
+        String[] data;
+        shipsArray = new ArrayList<>();
+        classesArray = new  ArrayList<>();
 
         try {
             is = new FileInputStream(shipsTxt);
             StringBuilder str = new StringBuilder();
 
-            Field[] field = Ship.class.getFields();
-
             int i;
             while((i = is.read()) != -1) {
-
-                if((char) i != ',') {
-                    str.append((char) i);
-                } else {
-                    str.setLength(0);
+                if (((char) i) == '\n') {
+                    str.append(',');
+                    continue;
                 }
+                str.append((char) i);
+            }
+
+            data = str.toString().split(",");
+
+            for (int j = 2; j < data.length; j += 3) {
+                shipsArray.add(new Ship(data[j - 2], data[j - 1], Integer.parseInt(data[j])));
+            }
+
+            System.out.println("Ships:");
+            for (Ship ship: shipsArray) {
+                System.out.println(ship.toString());
+            }
+
+            is = new FileInputStream(classesTxt);
+            str.setLength(0);
+
+            while((i = is.read()) != -1) {
+                if (((char) i) == '\n') {
+                    str.append(',');
+                    continue;
+                }
+                str.append((char) i);
+            }
+
+            data = str.toString().split(",");
+
+            System.out.println();
+
+            for (int j = 5; j < data.length; j += 6) {
+                classesArray.add(new ShipClass(data[j - 5], data[j - 4], data[j - 3], Integer.parseInt(data[j - 2]),
+                                Double.parseDouble(data[j - 1]), Integer.parseInt(data[j])));
+            }
+
+            System.out.println("Classes:");
+            for (ShipClass shipClass: classesArray) {
+                System.out.println(shipClass.toString());
             }
 
             is.close();
         }catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void replace() {
+        ArrayList<String> markers = new ArrayList<>();
+
+        for (ShipClass shipClass: classesArray) {
+            if (shipClass.country.equals("USA"))
+                markers.add(shipClass.shipClass);
+        }
+
+        for (Ship ship: shipsArray) {
+            for (String marker: markers) {
+                if (ship.shipClass.equals(marker)) {
+                    ship.name += "USA";
+                    break;
+                }
+            }
+        }
+
+        System.out.println();
+        System.out.println("New ships:");
+        for (Ship ship: shipsArray) {
+            System.out.println(ship.toString());
         }
     }
 }
