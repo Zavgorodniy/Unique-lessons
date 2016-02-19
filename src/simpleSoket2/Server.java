@@ -31,7 +31,10 @@ public class Server implements Runnable{
 			while (isRunning) {
 				connection = server.accept();
 
-				System.out.println("log: connection created with " + connection.getInetAddress());
+				System.out.println("connection created with " + connection.getInetAddress());
+				sendAnswer("connected to: " + connection.getLocalAddress());
+
+				System.out.println("answer for client: \"" + sendAnswer("please, make your request") + "\"");
 
 				output = new ObjectOutputStream(connection.getOutputStream());
 				output.flush();
@@ -39,9 +42,10 @@ public class Server implements Runnable{
 				input = new ObjectInputStream(connection.getInputStream());
 
 				String ask = input.readObject().toString();
-				System.out.println("log: ask from client " + ask);
 
-				output.writeObject(makeAnswer(ask));
+//				logger("request from client: \"" + ask + "\"");
+//
+//				output.writeObject(makeAnswer(ask));
 				output.flush();
 			}
 		}catch(Exception e){
@@ -60,7 +64,7 @@ public class Server implements Runnable{
 		}catch(Exception e){e.printStackTrace();}
 	}
 
-	private String makeAnswer(String ask) {
+	private String makeAnswer(String ask, boolean firstAns) {
 		String answer = new String();
 		ArrayList<String> availableCountries = new ArrayList<>();
 		boolean found = false;
@@ -111,5 +115,9 @@ public class Server implements Runnable{
 
 		System.out.println("log: answer to client " + answer);
 		return answer;
+	}
+
+	public String sendAnswer(String msg) {
+		return msg;
 	}
 }

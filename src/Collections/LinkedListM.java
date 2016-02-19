@@ -7,8 +7,6 @@ public class LinkedListM {
 //        new ListElement();
     }
 
-
-
     private class ListElement {
         Object element;
         Object next;
