@@ -14,24 +14,26 @@ public class MapM {
     private Entry[] array;
 
     /** Size of inner array. It doesn't indicate the actual number of elements in the inner array. */
-    public int size;
+    private int size;
 
     /** Indicates the index of the last added element.
      * The actual number of elements in array is {@code currentIndex + 1} {@link #size()};
      * -1 is the value for an empty inner array.
      */
-    public int currentIndex = -1;
+    private int currentIndex = -1;
 
     /** Empty constructor, which sets the standard initial size of the array */
     public MapM() {
-        size = 10;
+        size = 16;
         array = new Entry[size];
+        System.out.println("Map initialized with inner array size " + size);
     }
 
     /** Overloaded constructor with a size parameter for initialization of inner array */
     public MapM(int size) {
         this.size = size;
         array = new Entry[size];
+        System.out.println("Map initialized with inner array size " + size);
     }
 
     /**
@@ -52,23 +54,26 @@ public class MapM {
             if (array[i].key.equals(key)) {
                 array[i].value = value;
                 elementAdded = true;
+                System.out.println("Element " + array[i].toString() + " replaced");
                 break;
             }
         }
 
         if (!elementAdded && currentIndex < size - 1) {
             array[++currentIndex] = new Entry(key, value);
+            System.out.println("Element " + array[currentIndex].toString() + " added");
         } else if (!elementAdded){
             Entry[] tmp = array;
             size += size/2;
             array = new Entry[size];
             currentIndex = -1;
-            System.out.println("log: Rewrite array. New size = " + size);
+            System.out.println("Rewrite inner array. New size = " + size);
 
             for (Entry entry: tmp) {
                 array[++currentIndex] = entry;
             }
             array[++currentIndex] = new Entry (key, value);
+            System.out.println("Element " + array[currentIndex].toString() + " added");
         }
     }
 
@@ -101,6 +106,7 @@ public class MapM {
 
         for (int i = 0; i <= currentIndex; i++) {
             if (array[i].key.equals(key)) {
+                System.out.println("Element " + array[i].toString() + " removed");
                 for (int j = i; j < currentIndex; j++)
                     array[j] = array[j + 1];
 
@@ -109,7 +115,7 @@ public class MapM {
             }
         }
 
-        System.out.println("log: No such element to remove");
+        System.out.println("No such element to remove");
         return false;
     }
 
@@ -137,10 +143,12 @@ public class MapM {
                 }
             }
         }
+
         if (!fromMinToMax)
             reverse();
 
         array = sortedArray;
+        System.out.println("Array sorted: \n" + this.toString());
         return true;
     }
 
@@ -152,6 +160,7 @@ public class MapM {
             array[j] = array[i];
             array[i] = tmp;
         }
+        System.out.println("Reverse array: \n" + this.toString());
     }
 
     /**
@@ -166,7 +175,7 @@ public class MapM {
             if (((Comparable) min.value).compareTo(array[i].value) == 1)
                 min = array[i];
         }
-
+        System.out.println("Min element: " + min);
         return min;
     }
 
@@ -183,6 +192,7 @@ public class MapM {
                 max = array[i];
         }
 
+        System.out.println("Max element: " + max);
         return max;
     }
 
@@ -191,6 +201,7 @@ public class MapM {
      * @return number of elements
      */
     public int size() {
+        System.out.println("map size: " + (currentIndex + 1));
         return currentIndex + 1;
     }
 
