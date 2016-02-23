@@ -87,7 +87,7 @@ public class SetM<T> {
             return false;
         }
 
-        for (int i = currentIndex; i > 0; i--) {
+        for (int i = size - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 checkForCompare(array[j], array[j + 1]);
                 if (((Comparable) sortedArray[j]).compareTo(sortedArray[j + 1]) == 1) {

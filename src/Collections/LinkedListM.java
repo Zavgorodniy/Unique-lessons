@@ -104,12 +104,60 @@ public class LinkedListM {
         return true;
     }
 
-    public void sort() {
-        if (size > 1) {
+    public boolean sort() {
 
+        if (size > 1) {
+            if (size == 0 | size == 1) {
+                System.out.println("Nothing to sort");
+                return false;
+            } else {
+                ListElement element = firstEl;
+
+                for (int i = 1; i < size; i++) {
+                    checkForCompare(element.value, element.next.value);
+                    element = element.next;
+                }
+
+                for (int i = size - 1; i > 0; i--) {
+                    for (int j = 0; j < i; j++) {
+                        if (((Comparable) element.value).compareTo(element.next.value) == 1) {
+                            ListElement tmp = element;
+                            element = element.next;
+                            element.next = tmp;
+                        }
+                    }
+                }
+            }
+
+            System.out.println("Collection sorted: \n" + this.toString());
+            return true;
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    public Object min() {
+        ListElement min = firstEl;
+
+        for (int i = 1; i < size ; i++) {
+            checkForCompare(min, array[i]);
+            if (((Comparable) min).compareTo(array[i]) == 1)
+                min = array[i];
+        }
+        System.out.println("Min element: " + min);
+        return min;
+    }
+
+    public T max() {
+        T max = array[0];
+
+        for (int i = 1; i <= currentIndex ; i++) {
+            checkForCompare(max, array[i]);
+            if (((Comparable) max).compareTo(array[i]) == 1)
+                max = array[i];
+        }
+        System.out.println("Max element: " + max);
+        return max;
     }
 
     public void init(Object[] array) {
