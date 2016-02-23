@@ -1,40 +1,75 @@
-import java.net.*;
+package ClientServer;
 import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
-public class Client {
-    public static void main(String[] ar) {
-        int serverPort = 6666; // здесь обязательно нужно указать порт к которому привязывается сервер.
-        String address = "192.168.88.32";
+public class Client{
+
+    Client(String str){
+        String serverHostname = str;
+        System.out.println ("Connection to host " +
+                serverHostname + " on port 1111.");
+
+        Socket echoSocket = null;
+        PrintWriter out = null;
+        BufferedReader in = null;
 
         try {
-            InetAddress ipAddress = InetAddress.getByName(address); // создаем объект который отображает вышеописанный IP-адрес.
-            System.out.println("IP address " + address + " and port " + serverPort + "?");
-            Socket socket = new Socket(ipAddress, serverPort); // создаем сокет используя IP-адрес и порт сервера.
-            System.out.println("Yes! I just got hold of the program.");
+            echoSocket = new Socket(serverHostname, 1111);
+            out = new PrintWriter(echoSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(
+                    echoSocket.getInputStream()));
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host: " + serverHostname);
+            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for "
+                    + "the connection to: " + serverHostname);
+            System.exit(1);
+        }
 
-            // Берем входной и выходной потоки сокета, теперь можем получать и отсылать данные клиентом.
-            InputStream sin = socket.getInputStream();
-            OutputStream sout = socket.getOutputStream();
+        BufferedReader stdIn = new BufferedReader(
+                new InputStreamReader(System.in));
+        String userInput;
 
-            // Конвертируем потоки в другой тип, чтоб легче обрабатывать текстовые сообщения.
-            DataInputStream in = new DataInputStream(sin);
-            DataOutputStream out = new DataOutputStream(sout);
+        System.out.println ("Type message (\"exit\" to quit)");
+        System.out.println ("Please, enter your request");
+        try {
+            while ((userInput = stdIn.readLine()) != null)
+            {
+                out.println(userInput);
 
-            // Создаем поток для чтения с клавиатуры.
-            BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
-            String line = null;
-            System.out.println();
+                if (userInput.equals("exit"))
+                    break;
 
-            while (true) {
-                line = keyboard.readLine(); // ждем пока пользователь введет что-то и нажмет кнопку Enter.
-                out.writeUTF(line); // отсылаем введенную строку текста серверу.
-                out.flush(); // заставляем поток закончить передачу данных.
-                line = in.readUTF(); // ждем пока сервер отошлет строку текста.
-                System.out.println(line);
-                System.out.println();
+                String st = in.readLine();
+                String[] split = st.split("=");
+                int i = 0;
+
+                while (i<split.length){
+                    System.out.println("Answer from server: " + split[i]);
+                    i++;
+                }
             }
-        } catch (Exception x) {
-            x.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        out.close();
+        try {
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            stdIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            echoSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

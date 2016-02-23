@@ -87,11 +87,13 @@ public class MapM {
             throw new IllegalArgumentException("Try not null key");
 
         for (int i = 0; i <= currentIndex ; i++) {
-            if (array[i].key.equals(key))
+            if (array[i].key.equals(key)) {
+                System.out.println("Element " + array[i].toString());
                 return array[i].value;
+            }
         }
 
-        System.out.println("log: No such element to get");
+        System.out.println("No such element to get");
         return null;
     }
 
@@ -130,8 +132,10 @@ public class MapM {
     public boolean sort(boolean fromMinToMax) {
         Entry[] sortedArray = array;
 
-        if (size() == 0)
+        if (size() == 0 | size() == 1) {
+            System.out.println("Not enough elements to sort");
             return false;
+        }
 
         for (int i = currentIndex; i > 0; i--) {
             for (int j = 0; j < i; j++) {
@@ -148,19 +152,26 @@ public class MapM {
             reverse();
 
         array = sortedArray;
-        System.out.println("Array sorted: \n" + this.toString());
+        System.out.println("Collection sorted: \n" + this.toString());
         return true;
     }
 
-    /** Reverses collection */
-    public void reverse() {
-        int j = currentIndex;
-        for (int i = 0; i <= currentIndex / 2; i++, j--) {
+    /** Reverses collection
+     * @return true, if reverse was successful and false if was not.
+     */
+    public boolean reverse() {
+        if (size() == 0 | size() == 1) {
+            System.out.println("Not enough elements to reverse");
+            return false;
+        }
+
+        for (int i = 0, j = currentIndex; i <= currentIndex / 2; i++, j--) {
             Entry tmp = array[j];
             array[j] = array[i];
             array[i] = tmp;
         }
-        System.out.println("Reverse array: \n" + this.toString());
+        System.out.println("Reverse collection: \n" + this.toString());
+        return true;
     }
 
     /**
@@ -201,7 +212,6 @@ public class MapM {
      * @return number of elements
      */
     public int size() {
-        System.out.println("map size: " + (currentIndex + 1));
         return currentIndex + 1;
     }
 
@@ -247,7 +257,7 @@ public class MapM {
     }
 
     /** Encapsulated class, which contains the related pair of key and value */
-    public class Entry {
+    private class Entry {
         Object key;
         Object value;
 

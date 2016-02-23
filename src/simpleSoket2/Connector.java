@@ -17,7 +17,7 @@ public class Connector implements Runnable{
 	public void run() {
 		try {
 			while(isRunning){
-				connection = new Socket(InetAddress.getByName("192.168.88.15"), 1111);
+				connection = new Socket(InetAddress.getByName("localhost"), 1111);
 				output = new ObjectOutputStream(connection.getOutputStream());
 				output.flush();
 				input = new ObjectInputStream(connection.getInputStream());

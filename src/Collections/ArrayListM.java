@@ -1,11 +1,8 @@
 package Collections;
 
-/**
- *
- */
-public class ArrayListM implements CollectionM {
+public class ArrayListM<T> {
 
-    private Object[] array;
+    private T[] array;
 
     public int size;
 
@@ -13,41 +10,39 @@ public class ArrayListM implements CollectionM {
 
     public ArrayListM() {
         size = 10;
-        array = new Object[size];
+        array = (T[]) new Object[size];
     }
 
     public ArrayListM(int size) {
         this.size = size;
-        array = new Object[size];
+        array = (T[]) new Object[size];
     }
 
-    public ArrayListM(Object[] array) {
+    public ArrayListM(T[] array) {
         this.array = array;
         size = array.length;
         currentIndex = size - 1;
     }
 
-    @Override
-    public void add(Object element) {
+    public void add(T element) {
         if (currentIndex < size - 1) {
             array[++currentIndex] = element;
         } else {
-            Object[] tmp = array;
+            T[] tmp = array;
             size += size/2;
-            array = new Object[size];
+            array = (T[]) new Object[size];
             currentIndex = -1;
 
             System.out.println("log: Rewrite array. New size = " + size);
 
-            for (Object obj: tmp) {
+            for (T obj: tmp) {
                 array[++currentIndex] = obj;
             }
             add(element);
         }
     }
 
-    @Override
-    public void add(Object element, int index) {
+    public void add(T element, int index) {
 //
 //        if (currentIndex < size - 1) {
 //            array[++currentIndex] = element;
@@ -66,8 +61,7 @@ public class ArrayListM implements CollectionM {
 //        }
     }
 
-    @Override
-    public boolean set(Object element, int index) {
+    public boolean set(T element, int index) {
         if (index > currentIndex) {
             System.out.println("log: Can't set element with index " + index + ". Current max index is " + currentIndex);
             return false;
@@ -77,8 +71,7 @@ public class ArrayListM implements CollectionM {
         return true;
     }
 
-    @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (index > currentIndex) {
             System.out.println("log: Can't get element with index " + index + ". Current max index is " + currentIndex);
             return null;
@@ -86,24 +79,21 @@ public class ArrayListM implements CollectionM {
         return array[index];
     }
 
-    @Override
     public boolean remove(int index) {
         if (index > currentIndex) {
             System.out.println("log: Can't remove element with index " + index + ". Current max index is " + currentIndex);
             return false;
         }
 
-        for (int i = index; i < currentIndex; i++) {
+        for (int i = index; i < currentIndex; i++)
             array[i] = array[i + 1];
-        }
 
         currentIndex--;
         return true;
     }
 
-    @Override
     public boolean sort(boolean fromMinToMax) {
-        Object[] sortedArray = array;
+        T[] sortedArray = array;
 
         if (size == 0){
             System.out.println("log: Empty list");
@@ -117,13 +107,13 @@ public class ArrayListM implements CollectionM {
                 }
                 if(fromMinToMax) {
                     if (((Comparable) sortedArray[j]).compareTo(sortedArray[j + 1]) == 1) {
-                        Object tmp = sortedArray[j];
+                        T tmp = sortedArray[j];
                         sortedArray[j] = sortedArray[j + 1];
                         sortedArray[j + 1] = tmp;
                     }
                 } else {
                     if (((Comparable) sortedArray[j]).compareTo(sortedArray[j + 1]) == -1) {
-                        Object tmp = sortedArray[j];
+                        T tmp = sortedArray[j];
                         sortedArray[j] = sortedArray[j + 1];
                         sortedArray[j + 1] = tmp;
                     }
@@ -135,19 +125,17 @@ public class ArrayListM implements CollectionM {
         return true;
     }
 
-    @Override
     public void reverse() {
         int j = currentIndex;
         for (int i = 0; i <= currentIndex / 2; i++, j--) {
-            Object tmp = array[j];
+            T tmp = array[j];
             array[j] = array[i];
             array[i] = tmp;
         }
     }
 
-    @Override
-    public Object min() {
-        Object min = array[0];
+    public T min() {
+        T min = array[0];
 
         for (int i = 1; i <= currentIndex ; i++) {
             if(!min.getClass().equals(array[i].getClass()) || !(min instanceof Comparable && array[i] instanceof Comparable)) {
@@ -162,9 +150,8 @@ public class ArrayListM implements CollectionM {
         return min;
     }
 
-    @Override
-    public Object max() {
-        Object max = array[0];
+    public T max() {
+        T max = array[0];
 
         for (int i = 1; i <= currentIndex ; i++) {
             if(!max.getClass().equals(array[i].getClass()) || !(max instanceof Comparable && array[i] instanceof Comparable)) {
@@ -177,6 +164,10 @@ public class ArrayListM implements CollectionM {
         }
 
         return max;
+    }
+
+    public int size() {
+        return currentIndex + 1;
     }
 
     @Override

@@ -1,11 +1,8 @@
 package Collections;
 
-/**
- *
- */
-public class SetM{
+public class SetM<T> {
 
-    private Object[] array;
+    private T[] array;
 
     public int size;
 
@@ -13,131 +10,148 @@ public class SetM{
 
     public SetM() {
         size = 10;
-        array = new Object[size];
+        array = (T[]) new Object[size];
     }
 
-    public SetM(Object[] array) {
-        this.array = array;
+    public SetM(T[] array) {
+        for (T el: array) {
+            add(el);
+        }
         size = array.length;
         currentIndex = size - 1;
     }
 
-    public void add(Object element) {
+    public boolean add(T element) {
+        for (int i = 0; i <= currentIndex; i++) {
+            if (element.equals(array[i]))
+                return false;
+        }
         if (currentIndex < size - 1) {
             array[++currentIndex] = element;
         } else {
-            Object[] tmp = array;
+            T[] tmp = array;
             size += size/2;
-            array = new Object[size];
+            array = (T[]) new Object[size];
             currentIndex = -1;
 
-            System.out.println("log: Rewrite array. New size = " + size);
+            System.out.println("Rewrite array. New size = " + size);
 
-            for (Object obj: tmp) {
+            for (T obj: tmp)
                 array[++currentIndex] = obj;
-            }
+
             add(element);
         }
+        return true;
     }
 
-    public boolean set(Object element, Object newElement) {
-
+    public boolean set(T element, T newElement) {
         for (Object el: array) {
             if (el.equals(element)) {
                 el = newElement;
                 return true;
             }
         }
-        System.out.println("log: element not founded");
+        System.out.println("No such element");
         return false;
     }
 
-    public boolean remove(Object element) {
+    public T get(T element) {
+        for (T el: array) {
+            if (el.equals(element)) {
+                return el;
+            }
+        }
+        System.out.println("No such element");
+        return null;
+    }
+
+    public boolean remove(T element) {
         for (int i = 0; i <= currentIndex; i++) {
 
             if (array[i].equals(element)) {
-                for (int j = i; j < currentIndex; j++) {
+                for (int j = i; j < currentIndex; j++)
                     array[j] = array[j + 1];
-                }
                 currentIndex--;
                 return true;
             }
         }
-        System.out.println("log: No such element");
+        System.out.println("No such element");
         return false;
     }
 
     public boolean sort(boolean fromMinToMax) {
-        Object[] sortedArray = array;
+        T[] sortedArray = array;
 
-        if (size == 0){
-            System.out.println("log: Empty list");
+        if (size() == 0 | size() == 1) {
+            System.out.println("Nothing to sort");
             return false;
         }
+
         for (int i = currentIndex; i > 0; i--) {
             for (int j = 0; j < i; j++) {
-                if(!sortedArray[i].getClass().equals(sortedArray[j].getClass()) || !(sortedArray[i] instanceof Comparable && sortedArray[j] instanceof Comparable)) {
-                    System.out.println("log: Can't compare elements");
-                    throw new ClassCastException();
-                }
-                if(fromMinToMax) {
-                    if (((Comparable) sortedArray[j]).compareTo(sortedArray[j + 1]) == 1) {
-                        Object tmp = sortedArray[j];
-                        sortedArray[j] = sortedArray[j + 1];
-                        sortedArray[j + 1] = tmp;
-                    }
-                } else {
-                    if (((Comparable) sortedArray[j]).compareTo(sortedArray[j + 1]) == -1) {
-                        Object tmp = sortedArray[j];
-                        sortedArray[j] = sortedArray[j + 1];
-                        sortedArray[j + 1] = tmp;
-                    }
+                checkForCompare(array[j], array[j + 1]);
+                if (((Comparable) sortedArray[j]).compareTo(sortedArray[j + 1]) == 1) {
+                    T tmp = sortedArray[j];
+                    sortedArray[j] = sortedArray[j + 1];
+                    sortedArray[j + 1] = tmp;
                 }
             }
         }
 
+        if (!fromMinToMax)
+            reverse();
+
         array = sortedArray;
+        System.out.println("Collection sorted: \n" + this.toString());
         return true;
     }
 
     public void reverse() {
         int j = currentIndex;
         for (int i = 0; i <= currentIndex / 2; i++, j--) {
-            Object tmp = array[j];
+            T tmp = array[j];
             array[j] = array[i];
             array[i] = tmp;
         }
+        System.out.println("Reverse collection: \n" + this.toString());
     }
 
-    public Object min() {
-        Object min = array[0];
+    public T min() {
+        T min = array[0];
 
         for (int i = 1; i <= currentIndex ; i++) {
-            if(!min.getClass().equals(array[i].getClass()) || !(min instanceof Comparable && array[i] instanceof Comparable)) {
-                System.out.println("log: Can't compare elements");
-                throw new ClassCastException();
-            }
-            if (((Comparable) min).compareTo(array[i]) == 1) {
+            checkForCompare(min, array[i]);
+            if (((Comparable) min).compareTo(array[i]) == 1)
                 min = array[i];
-            }
         }
-
+        System.out.println("Min element: " + min);
         return min;
     }
 
-    public Object max() {
-        Object max = array[0];
+    public T max() {
+        T max = array[0];
 
         for (int i = 1; i <= currentIndex ; i++) {
-            if(!max.getClass().equals(array[i].getClass()) || !(max instanceof Comparable && array[i] instanceof Comparable)) {
-                System.out.println("log: Can't compare elements");
-                throw new ClassCastException();
-            }
-            if (((Comparable) max).compareTo(array[i]) == -1) {
+            checkForCompare(max, array[i]);
+            if (((Comparable) max).compareTo(array[i]) == 1)
                 max = array[i];
-            }
         }
-
+        System.out.println("Max element: " + max);
         return max;
+    }
+
+    public int size() {
+        return currentIndex + 1;
+    }
+
+    private boolean checkForCompare(T el1, T el2) {
+        if (el1 == null || el2 == null)
+            throw new ClassCastException("Can't compare elements. Values contains nulls");
+        else if (!el1.getClass().equals(el2.getClass()))
+            throw new ClassCastException("Can't compare elements with different classes");
+        else if (!(el1 instanceof Comparable) || !(el2 instanceof Comparable))
+            throw new ClassCastException("Can't compare elements. No criteria for compare");
+
+        return true;
     }
 }
